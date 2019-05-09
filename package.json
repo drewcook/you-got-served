@@ -20,8 +20,12 @@
 	},
 	"homepage": "https://github.com/drewcook/you-got-served#readme",
 	"dependencies": {
+		"apollo-boost": "^0.3.1",
+		"graphql": "^14.3.0",
+		"graphql-tools": "^4.0.4",
 		"next": "^8.1.0",
 		"react": "^16.8.6",
+		"react-apollo": "^2.5.5",
 		"react-dom": "^16.8.6"
 	}
 }

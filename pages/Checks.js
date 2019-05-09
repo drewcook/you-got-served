@@ -26,12 +26,12 @@ const Checks = props => (
 							</div>
 						))}
 					</div> :
-					<p className="text-center">There are currently no checks.</p>;
+					<p className="text-center lead">There are currently no checks.</p>;
 			}}
 		</Query>
 		<style jsx>{`
 			hr {
-				border-color: #fff;
+				border-color: #F39C12;
 			}
 			.check-wrapper {
 				border-width: 2px;
@@ -49,6 +49,9 @@ const Checks = props => (
 			}
 			a:hover div {
 				opacity: 0.8;
+			}
+			p.lead {
+				margin-top: 50px;
 			}
 		`}</style>
 	</Layout>

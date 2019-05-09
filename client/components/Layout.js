@@ -9,9 +9,10 @@ const Layout = props => (
 			<title>You Got Served | {props.title}</title>
 		</Head>
 		<div className="row">
-			<div className="col-md-3 nav-wrapper">
+			<div className="col-md-3 nav-wrapper bg-light">
 				<aside>
 					<Navigation />
+					<span className="copyright text-center">&copy; {new Date().getFullYear()} | YOU GOT SERVED</span>
 				</aside>
 			</div>
 			<div className="col-md-9 page-wrapper">
@@ -20,20 +21,48 @@ const Layout = props => (
 				</div>
 			</div>
 		</div>
+		<footer className="hidden-md bg-light">
+			<span className="text-center">&copy; {new Date().getFullYear()} | YOU GOT SERVED</span>
+		</footer>
 		<style jsx>{`
 			.row {
 				margin: 0;
 			}
-			.nav-wrapper {
-				background: #555;
-			}
 			.page-wrapper {
-				padding-top: 50px;
-				padding-bottom: 50px;
+				padding-top: 30px;
+				padding-bottom: 70px;
+			}
+			.copyright {
+				display: none;
+			}
+			footer {
+				padding: 7px 0;
+				text-align: center;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				font-size: 12px;
 			}
 			@media (min-width: 768px) {
 				.nav-wrapper {
+					padding-top: 20px;
 					min-height: 100vh;
+					position: relative;
+				}
+				.page-wrapper {
+					padding-top: 70px;
+				}
+				.copyright {
+					display: block;
+					position: absolute;
+					bottom: 30px;
+					left: 0;
+					right: 0;
+					font-size: 12px;
+				}
+				footer {
+					display: none;
 				}
 			}
 		`}</style>

@@ -31,7 +31,7 @@ const Items = props => (
 		</Query>
 		<style jsx>{`
 			hr {
-				border-color: #fff;
+				border-color: #F39C12;
 			}
 			.item-wrapper {
 				border-width: 2px;

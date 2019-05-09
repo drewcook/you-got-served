@@ -5,6 +5,7 @@ const Layout = props => (
 	<div>
 		<Head>
 			<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossOrigin="anonymous" />
 			<title>You Got Served | {props.title}</title>
 		</Head>
 		<div className="row">

@@ -2,6 +2,7 @@ import Layout from "../client/components/Layout";
 import { GET_CHECKS } from "../queries";
 import Link from "next/link";
 import { Query } from "react-apollo";
+import LoadingModule from "../client/components/LoadingModule";
 
 const Checks = props => (
 	<Layout title="Checks">
@@ -9,7 +10,7 @@ const Checks = props => (
 		<hr/>
 		<Query query={GET_CHECKS}>
 			{({data: {getChecks}, loading, error}) => {
-				if (loading) return <div>Loading...</div>;
+				if (loading) return <LoadingModule />
 				if (error) return <div className="text-danger">{error.message}</div>;
 				return getChecks.length ?
 					<div className="row">

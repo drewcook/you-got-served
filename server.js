@@ -29,7 +29,7 @@ app
 		const server = express();
 
 		// app server middleware
-		server.use(cors);
+		//server.use(cors);
 		if (!dev) server.use(compression);
 
 		// apollo server middleware
@@ -45,7 +45,7 @@ app
 		server.listen(PORT, err => {
 			if (err) throw err;
 			console.log(`App is listening on port: ${PORT}`);
-		})
+		});
 	})
 	.catch(ex => {
 		console.log(ex.stack);

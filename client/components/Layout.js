@@ -5,7 +5,7 @@ const Layout = props => (
 	<div>
 		<Head>
 			<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-			<title>{props.title}</title>
+			<title>You Got Served | {props.title}</title>
 		</Head>
 		<div className="row">
 			<div className="col-md-3 nav-wrapper">

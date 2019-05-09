@@ -1,17 +1,15 @@
 const fetch = require("isomorphic-unfetch");
 
 const apiPath = endpoint => `https://check-api.herokuapp.com/${endpoint}`;
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0YmFjMjhjLWJiNzItNGY1MC05ZTBiLTkyODNkODRlMThhNCIsIm5hbWUiOiJEcmV3In0.QcyDtRfPBuIlDiUgUznIuOb4RGXp__JYXETzbm8Nalo";
 
 const request = async (endpoint, type) => {
-	const req = await fetch(apiPath(endpoint), {
-		method: type,
+	let req = await fetch(apiPath(endpoint), {
+		method: "GET",
 		headers: {
-			"authorization": token,
-			"Content-Type": "application/json"
+			"Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0YmFjMjhjLWJiNzItNGY1MC05ZTBiLTkyODNkODRlMThhNCIsIm5hbWUiOiJEcmV3In0.QcyDtRfPBuIlDiUgUznIuOb4RGXp__JYXETzbm8Nalo",
 		}
 	});
-	const response = await req.json();
+	let response = await req.json();
 	return response;
 }
 

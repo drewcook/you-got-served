@@ -29,7 +29,10 @@ app
 		const server = express();
 
 		// app server middleware
-		//server.use(cors);
+		server.use(cors({
+			origin: "http://localhost:3000",
+			credentials: true
+		}));
 		if (!dev) server.use(compression);
 
 		// apollo server middleware
@@ -37,6 +40,22 @@ app
 		if (dev) console.log(`GraphQL playground is available at ${aplServer.graphqlPath}`);
 
 		// route handlers
+		server.get("/tables", (req, res) => {
+			const actualPage = "/Tables";
+			const queryParams = {};
+			app.render(req, res, actualPage, queryParams);
+		});
+		server.get("/items", (req, res) => {
+			const actualPage = "/Items";
+			const queryParams = {};
+			app.render(req, res, actualPage, queryParams);
+		});
+		server.get("/checks", (req, res) => {
+			const actualPage = "/Checks";
+			const queryParams = {};
+			app.render(req, res, actualPage, queryParams);
+		});
+
 		server.get("*", (req, res) => {
 			return handle(req, res);
 		});

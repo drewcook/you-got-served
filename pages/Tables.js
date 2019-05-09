@@ -1,7 +1,7 @@
 import Layout from "../client/components/Layout";
-import {Query} from "react-apollo";
 import {GET_TABLES} from "../queries";
 import Link from "next/link";
+import { Query } from "react-apollo";
 
 const Tables = props => (
 	<Layout title="Tables">
@@ -14,10 +14,10 @@ const Tables = props => (
 				return (
 					<div className="row">
 						{getTables.map(table => (
-							<div className="col-xs-6 col-sm-4" key={table.id}>
+							<div className="col-xs-12 col-sm-4" key={table.id}>
 								<Link href="">
 									<a>
-										<div className="card table-wrapper bg-primary border-dark" key={table.id}>
+										<div className="card table-wrapper bg-primary border-dark">
 											<span className="bg-success">{table.number}</span>
 										</div>
 									</a>

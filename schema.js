@@ -5,6 +5,11 @@ exports.typeDefs = gql`
 		getTables: [Table]
 		getItems: [Item]
 		getChecks: [Check]
+		getChecksByTable(tableId: String!): [Check]
+	}
+	
+	type Mutation {
+		addCheck(tableId: String!): Check
 	}
 	
 	type Table {

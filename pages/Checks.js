@@ -19,7 +19,7 @@ const Checks = props => (
 								<Link href="">
 									<a>
 										<div className="card check-wrapper border-success">
-											Check
+											{check.id}
 										</div>
 									</a>
 								</Link>

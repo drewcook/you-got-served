@@ -1,5 +1,5 @@
 import Layout from "../client/components/Layout";
-import {GET_TABLES} from "../queries";
+import { GET_TABLES } from "../queries";
 import Link from "next/link";
 import { Query } from "react-apollo";
 import LoadingModule from "../client/components/LoadingModule";

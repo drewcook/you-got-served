@@ -7,7 +7,7 @@ import LoadingModule from "../client/components/LoadingModule";
 const Tables = props => (
 	<Layout title="Tables">
 		<h2>Tables</h2>
-		<hr/>
+		<hr className="border-warning" />
 		<Query query={GET_TABLES}>
 			{({data: {getTables}, loading, error}) => {
 				if (loading) return <LoadingModule />;
@@ -16,7 +16,7 @@ const Tables = props => (
 					<div className="row">
 						{getTables.map(table => (
 							<div className="col-xs-12 col-sm-4" key={table.id}>
-								<Link href="">
+								<Link href={`/table?id=${table.id}`} as={`/table/${table.id}`}>
 									<a>
 										<div className="card table-wrapper bg-primary border-dark">
 											<span className="bg-success">{table.number}</span>
@@ -30,9 +30,6 @@ const Tables = props => (
 			}}
 		</Query>
 		<style jsx>{`
-			hr {
-				border-color: #F39C12;
-			}
 			.table-wrapper {
 				border-width: 2px;
 				border-radius: 5px;

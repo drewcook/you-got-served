@@ -7,7 +7,7 @@ import LoadingModule from "../client/components/LoadingModule";
 const Checks = props => (
 	<Layout title="Checks">
 		<h2>Checks</h2>
-		<hr/>
+		<hr className="border-warning" />
 		<Query query={GET_CHECKS}>
 			{({data: {getChecks}, loading, error}) => {
 				if (loading) return <LoadingModule />
@@ -30,9 +30,6 @@ const Checks = props => (
 			}}
 		</Query>
 		<style jsx>{`
-			hr {
-				border-color: #F39C12;
-			}
 			.check-wrapper {
 				border-width: 2px;
 				border-radius: 5px;

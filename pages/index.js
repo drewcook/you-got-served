@@ -3,7 +3,7 @@ import Layout from "../client/components/Layout";
 const Index = props => (
 	<Layout title="Home">
 		<h2>Welcome</h2>
-		<hr/>
+		<hr className="border-warning" />
 		<div className="jumbotron">
 			<h3>The Greasy Spoon POS System</h3>
 			<p className="lead">You can now easily manage your checks for each table you are serving.  Just use the navigation to view all tables, items, or checks.</p>
@@ -11,8 +11,8 @@ const Index = props => (
 			<p>You may filter open and closed checks when viewing the checks page.</p>
 		</div>
 		<style jsx>{`
-			hr {
-				border-color: #F39C12;
+			.jumbotron {
+				margin-top: 30px;
 			}
 		`}</style>
 	</Layout>

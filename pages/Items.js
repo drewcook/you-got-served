@@ -7,7 +7,7 @@ import LoadingModule from "../client/components/LoadingModule";
 const Items = props => (
 	<Layout title="Items">
 		<h2>Items</h2>
-		<hr/>
+		<hr className="border-warning" />
 		<Query query={GET_ITEMS}>
 			{({data: {getItems}, loading, error}) => {
 				if (loading) return <LoadingModule />;
@@ -30,9 +30,6 @@ const Items = props => (
 			}}
 		</Query>
 		<style jsx>{`
-			hr {
-				border-color: #F39C12;
-			}
 			.item-wrapper {
 				border-width: 2px;
 				border-radius: 5px;

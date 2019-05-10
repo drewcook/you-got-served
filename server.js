@@ -45,6 +45,11 @@ app
 			const queryParams = {};
 			app.render(req, res, actualPage, queryParams);
 		});
+		server.get("/table/:id", (req, res) => {
+			const actualPage = "/TableDetails";
+			const queryParams = { id: req.params.id };
+			app.render(req, res, actualPage, queryParams);
+		});
 		server.get("/items", (req, res) => {
 			const actualPage = "/Items";
 			const queryParams = {};

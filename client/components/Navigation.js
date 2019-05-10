@@ -10,14 +10,14 @@ const Navigation = props => (
 		<hr/>
 		<ul>
 			<li><Link href="/"><a title="Home">Home</a></Link></li>
-			<li><Link href="/Tables" as="tables"><a title="Tables">Tables</a></Link></li>
-			<li><Link href="/Items" as="items"><a title="Items">Items</a></Link></li>
-			<li><Link href="/Checks" as="checks"><a title="Checks">Checks</a></Link></li>
+			<li><Link href="/Tables" as="/tables"><a title="Tables">Tables</a></Link></li>
+			<li><Link href="/Items" as="/items"><a title="Items">Items</a></Link></li>
+			<li><Link href="/Checks" as="/checks"><a title="Checks">Checks</a></Link></li>
 		</ul>
 		<style jsx>{`
 			h1 {
 				font-size: 24px;
-				margin-bottom: 20px;
+				margin-bottom: 10px;
 				text-align: center;
 			}
 			.icon {

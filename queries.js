@@ -48,3 +48,27 @@ export const GET_CHECKS_FOR_TABLE = gql`
 		}
 	}
 `;
+
+export const GET_CHECK_DETAILS = gql`
+	query($checkId: String!) {
+		getCheckDetails(checkId: $checkId) {
+			id
+			dateCreated
+			dateUpdated
+			createdBy
+			tableId
+			closed
+			tax
+			tip
+			orderedItems {
+				id
+				dateCreated
+				dateUpdated
+				createdBy
+				checkId
+				itemId
+				voided
+			}
+		}
+	}
+`;

@@ -6,6 +6,7 @@ exports.typeDefs = gql`
 		getItems: [Item]
 		getChecks: [Check]
 		getChecksByTable(tableId: String!): [Check]
+		getCheckDetails(checkId: String!): Check
 	}
 	
 	type Mutation {
@@ -32,5 +33,16 @@ exports.typeDefs = gql`
 		closed: Boolean
 		tax: Int
 		tip: Float
+		orderedItems: [OrderedItem]
+	}
+	
+	type OrderedItem {
+		id: String!
+		dateCreated: String
+		dateUpdated: String
+		createdBy: String
+		checkId: String!
+		itemId: String!
+		voided: Boolean
 	}
 `;

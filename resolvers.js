@@ -41,6 +41,9 @@ exports.resolvers = {
 		getChecksByTable: async (root, {tableId}, {Table, Check}) => {
 			const checks = await request("checks", "GET");
 			return checks.filter(check => check.tableId === tableId);
+		},
+		getCheckDetails: async (root, {checkId}, {Check}) => {
+			return await request(`checks/${checkId}`, "GET");
 		}
 	},
 	Mutation: {

@@ -60,6 +60,11 @@ app
 			const queryParams = {};
 			app.render(req, res, actualPage, queryParams);
 		});
+		server.get("/check/:id", (req, res) => {
+			const actualPage = "/CheckDetails";
+			const queryParams = { id: req.params.id };
+			app.render(req, res, actualPage, queryParams);
+		});
 
 		server.get("*", (req, res) => {
 			return handle(req, res);

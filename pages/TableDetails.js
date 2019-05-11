@@ -1,12 +1,14 @@
 import Layout from "../client/components/Layout";
+import CheckCard from "../client/components/CheckCard";
 import { Mutation, Query } from "react-apollo";
 import { ADD_CHECK } from "../mutations";
 import { GET_CHECKS_FOR_TABLE } from "../queries";
 import LoadingModule from "../client/components/LoadingModule";
+import Link from "next/link";
 
 const TableDetails = props => (
 	<Layout title="Table Details">
-		<button className="btn btn-secondary"><i className="fas fa-angle-left"></i> Back To Tables</button>
+		<Link href="/Tables" as="/tables"><button className="btn btn-secondary"><i className="fas fa-angle-left"></i> Back To Tables</button></Link>
 		<h2>Table Details</h2>
 		<hr className="border-warning" />
 		<h5><em>Table ID: {props.router.query.id}</em></h5>
@@ -29,9 +31,7 @@ const TableDetails = props => (
 					{({data: {getChecksByTable}, loading, error}) => {
 						if (loading) return <LoadingModule />;
 						if (error) return <div className="text-danger">{error.message}</div>;
-						return getChecksByTable.map(check => (
-							<div key={check.id}>{check.id}</div>
-						));
+						return getChecksByTable.map((check, idx) => <CheckCard key={idx} check={check} />);
 					}}
 				</Query>
 			</div>

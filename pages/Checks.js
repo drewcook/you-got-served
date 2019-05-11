@@ -1,8 +1,8 @@
 import Layout from "../client/components/Layout";
 import { GET_CHECKS } from "../queries";
-import Link from "next/link";
 import { Query } from "react-apollo";
 import LoadingModule from "../client/components/LoadingModule";
+import CheckCard from "../client/components/CheckCard";
 
 const Checks = props => (
 	<Layout title="Checks">
@@ -14,15 +14,9 @@ const Checks = props => (
 				if (error) return <div className="text-danger">{error.message}</div>;
 				return getChecks.length ?
 					<div className="row">
-						{getChecks.map(check => (
-							<div className="col-xs-12 col-sm-6 col-lg-4" key={check.id}>
-								<Link href="">
-									<a>
-										<div className="card check-wrapper border-success">
-											{check.id}
-										</div>
-									</a>
-								</Link>
+						{getChecks.map((check, idx) => (
+							<div className="col-xs-12 col-sm-6 col-lg-4" key={idx}>
+								<CheckCard check={check} />
 							</div>
 						))}
 					</div> :

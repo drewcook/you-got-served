@@ -43,6 +43,7 @@ const Tables = props => (
 				color: #fff;
 				text-decoration: none;
 			}
+			a:hover { text-decoration: none; }
 			a:hover div {
 				opacity: 0.8;
 			}

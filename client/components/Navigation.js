@@ -46,7 +46,8 @@ const Navigation = props => (
 				color: #fff;
 			}
 			a:hover {
-				color: #F39C12;			
+				color: #F39C12;
+				text-decoration: none;			
 			}
 			@media (max-width: 767px) {
 				nav {

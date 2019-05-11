@@ -49,6 +49,7 @@ const Layout = props => (
 					padding-top: 20px;
 					min-height: 100vh;
 					position: relative;
+					border-right: 2px solid #F39C12;
 				}
 				.page-wrapper {
 					padding-top: 70px;

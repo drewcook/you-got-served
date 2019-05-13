@@ -73,7 +73,6 @@ class CheckDetails extends React.Component {
 						if (loading) return <LoadingModule />;
 						if (error) return (<div className="text-danger">{error.message}</div>);
 						const details = getCheckDetails;
-						console.log(details);
 						const total = details.closed ? details.orderedItems.filter(item => !item.voided).reduce((acc, val) => acc + val.price, 0) + details.tax + details.tip : details.orderedItems.filter(item => !item.voided).reduce((acc, val) => acc + val.price, 0);
 						return (
 							<div>
@@ -95,10 +94,12 @@ class CheckDetails extends React.Component {
 								<div className="items-wrapper border-primary">
 									<h4 className="d-flex align-content-center justify-content-between">
 										Line Items
-										<div>
-											<button className="btn btn-sm btn-outline-danger" onClick={this.openVoidModal}>Void Item <i className="fas fa-ban"></i></button>
-											<button className="btn btn-sm btn-info" onClick={this.openModal}>Add New <i className="fas fa-plus"></i></button>
-										</div>
+										{!details.closed &&
+											<div>
+												{details.orderedItems.filter(item => !item.voided).length > 0 && <button className="btn btn-sm btn-outline-danger" onClick={this.openVoidModal}>Void Item <i className="fas fa-ban"></i></button>}
+												<button className="btn btn-sm btn-info" onClick={this.openModal}>Add New <i className="fas fa-plus"></i></button>
+											</div>
+										}
 									</h4>
 									<hr/>
 									{details.orderedItems.length ? details.orderedItems.map((item, idx) => (
@@ -106,9 +107,17 @@ class CheckDetails extends React.Component {
 											{item.name} <span className="price">${item.price}</span>
 										</div>
 									)) : <p className="text-center"><em>There are currently no items on this check.</em></p>}
-									<hr/>
-									<div className="line-item">Tax <span>{details.tax ? "$" + details.tax : "N/A"}</span></div>
-									<div className="line-item">Tip <span>{details.tip ? "$" + Math.round(details.tip*100)/100 : "N/A"}</span></div>
+									{details.closed &&
+										<React.Fragment>
+											<hr/>
+											<div
+												className="line-item">Tax <span>${details.tax}</span>
+											</div>
+											<div
+												className="line-item">Tip <span>${Math.round(details.tip * 100) / 100}</span>
+											</div>
+										</React.Fragment>
+									}
 									<hr/>
 									<div className="line-item total">Total <span>${Math.round(total * 100) / 100}</span></div>
 								</div>

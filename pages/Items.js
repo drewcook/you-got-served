@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Query } from "react-apollo";
 import LoadingModule from "../client/components/LoadingModule";
 
+
+// This page is probably not necessary..
+
 const Items = props => (
 	<Layout title="Items">
 		<h2>Items</h2>

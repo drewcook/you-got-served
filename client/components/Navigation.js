@@ -11,7 +11,7 @@ const Navigation = props => (
 		<ul>
 			<li><Link href="/"><a title="Home">Home</a></Link></li>
 			<li><Link href="/Tables" as="/tables"><a title="Tables">Tables</a></Link></li>
-			<li><Link href="/Items" as="/items"><a title="Items">Items</a></Link></li>
+			{/*<li><Link href="/Items" as="/items"><a title="Items">Items</a></Link></li> not necessary */}
 			<li><Link href="/Checks" as="/checks"><a title="Checks">Checks</a></Link></li>
 		</ul>
 		<style jsx>{`

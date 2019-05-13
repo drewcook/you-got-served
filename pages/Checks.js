@@ -44,9 +44,11 @@ class Checks extends React.Component {
 							<a className="nav-link" onClick={e =>this.filterChecks(e, "closed")}>Closed</a>
 						</li>
 					</ul>
-					<Mutation mutation={DELETE_ALL_CHECKS} refetchQueries={[{query: GET_CHECKS}]}>
-						{(deleteAllChecks) => <button className="btn btn-sm btn-outline-danger" onClick={deleteAllChecks}>Delete All</button>}
-					</Mutation>
+					{/* this can be uncommented when developing
+						<Mutation mutation={DELETE_ALL_CHECKS} refetchQueries={[{query: GET_CHECKS}]}>
+							{(deleteAllChecks) => <button className="btn btn-sm btn-outline-danger" onClick={deleteAllChecks}>Delete All</button>}
+						</Mutation>
+					*/}
 				</div>
 				<Query query={GET_CHECKS}>
 					{({data: {getChecks}, loading, error}) => {

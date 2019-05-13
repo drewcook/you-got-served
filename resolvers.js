@@ -66,13 +66,21 @@ exports.resolvers = {
 		addCheck: async (root, {tableId}, {Table}) => {
 			return await (request("checks", "POST", {tableId}));
 		},
+		closeCheck: async (root, {checkId}, {Check}) => {
+			return await request(`checks/${checkId}/close`, "PUT");
+		},
 		addNewItem: async (root, {checkId, itemId}, {Check}) => {
-			await (request(`checks/${checkId}/addItem`, "PUT", {itemId}))
+			return await request(`checks/${checkId}/addItem`, "PUT", {itemId})
 				.then(() => true)
 				.catch(ex => {
 					throw new Error(ex);
 					return false;
 				});
+		},
+		deleteAllChecks: async (root, args, {Check}) => {
+			const res = await request("checks", "DELETE");
+			console.log(res);
+			return true;
 		}
 	}
 };

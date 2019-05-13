@@ -15,6 +15,21 @@ export const ADD_CHECK = gql`
 	}
 `;
 
+export const CLOSE_CHECK = gql`
+	mutation($checkId: String!) {
+		closeCheck(checkId: $checkId) {
+			id
+			dateCreated
+			dateUpdated
+			createdBy
+			tableId
+			closed
+			tax
+			tip
+		}
+	}
+`;
+
 export const ADD_ITEM = gql`
 	mutation($checkId: String!, $itemId: String!) {
 		addNewItem(checkId: $checkId, itemId: $itemId)

@@ -12,7 +12,9 @@ exports.typeDefs = gql`
 	
 	type Mutation {
 		addCheck(tableId: String!): Check
+		closeCheck(checkId: String!): Check
 		addNewItem(checkId: String!, itemId: String!): Boolean
+		deleteAllChecks: Boolean
 	}
 	
 	type Table {
@@ -33,7 +35,7 @@ exports.typeDefs = gql`
 		createdBy: String
 		tableId: String!
 		closed: Boolean
-		tax: Int
+		tax: Float
 		tip: Float
 		orderedItems: [OrderedItem]
 	}

@@ -6,7 +6,7 @@ import moment from "moment";
 import Link from "next/link";
 import TableNumber from "../client/components/TableNumber";
 import { Modal, ListGroup } from "react-bootstrap";
-import { ADD_ITEM } from "../mutations";
+import { ADD_ITEM, CLOSE_CHECK } from "../mutations";
 
 class CheckDetails extends React.Component {
 	constructor(props) {
@@ -113,6 +113,11 @@ class CheckDetails extends React.Component {
 										</Mutation>
 									</Modal.Footer>
 								</Modal>
+								{!details.closed &&
+									<Mutation mutation={CLOSE_CHECK} variables={{checkId: details.id}} refetchQueries={[{query: GET_CHECK_DETAILS, variables: {checkId: this.props.router.query.id}}]}>
+										{(closeCheck) => (<button className="btn btn-danger" onClick={closeCheck}>Close Check</button>)}
+									</Mutation>
+								}
 							</div>
 						);
 					}}
@@ -135,6 +140,7 @@ class CheckDetails extends React.Component {
 						background: #ccc;
 						color: #222;
 						padding: 20px 15px;
+						margin-bottom: 30px;
 					}
 					.items-wrapper p {
 						margin: 0;

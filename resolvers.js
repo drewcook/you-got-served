@@ -1,5 +1,6 @@
 const fetch = require("isomorphic-unfetch");
 
+// It would be an improvement to the API documentation to specify what each endpoint returns
 const apiPath = endpoint => `https://check-api.herokuapp.com/${endpoint}`;
 
 const request = async (endpoint, type, options = null) => {
@@ -76,6 +77,9 @@ exports.resolvers = {
 					throw new Error(ex);
 					return false;
 				});
+		},
+		voidItem: async (root, {checkId, itemId}) => {
+			return await request(`checks/${checkId}/voidItem`, "PUT", {orderedItemId: itemId});
 		},
 		deleteAllChecks: async (root, args, {Check}) => {
 			const res = await request("checks", "DELETE");

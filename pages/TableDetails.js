@@ -27,7 +27,7 @@ const TableDetails = props => (
 								return (
 									<div>
 										{/* TODO: update API error message for if there's an open check already */}
-										<button className="btn btn-info" onClick={addCheck} disabled={loading}><i className="fas fa-plus"></i> Add Check</button>
+										<button className="btn btn-info" onClick={addCheck} disabled={loading}>Add Check <i className="fas fa-plus"></i></button>
 										{error && <p className="text-danger"><small>You may not add another check if one is already open.</small></p>}
 									</div>
 								);
@@ -55,6 +55,9 @@ const TableDetails = props => (
 			}}
 		</Query>
 		<style jsx>{`
+			.btn {
+				text-transform: uppercase;
+			}
 			.btn-secondary {
 				margin: -50px 0 10px;
 			}

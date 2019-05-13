@@ -35,3 +35,17 @@ export const ADD_ITEM = gql`
 		addNewItem(checkId: $checkId, itemId: $itemId)
 	}
 `;
+
+export const VOID_ITEM = gql`
+	mutation($checkId: String!, $itemId: String!) {
+		voidItem(checkId: $checkId, itemId: $itemId) {
+			id
+			dateCreated
+			dateUpdated
+			createdBy
+			checkId
+			itemId
+			voided
+		}
+	}
+`;

@@ -22,12 +22,14 @@ const CheckCard = ({check}) => (
 				}}
 			</Query>
 			<div className="text-right">
-				<Link href={`/check/${check.id}`} as={`/check/${check.id}`}><button className="btn btn-sm btn-outline-warning mr-2"><i className="fas fa-info-circle"></i> Details</button></Link>
+				<Link href={`/check/${check.id}`} as={`/check/${check.id}`}><button className="btn btn-sm btn-outline-warning mr-2">Details <i className="fas fa-info-circle"></i></button></Link>
 			</div>
 		</div>
 		<style jsx>{`
-		
-	`}</style>
+			.btn {
+				text-transform: uppercase;
+			}		
+		`}</style>
 	</div>
 );
 

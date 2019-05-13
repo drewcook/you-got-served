@@ -6,14 +6,16 @@ import moment from "moment";
 import Link from "next/link";
 import TableNumber from "../client/components/TableNumber";
 import { Modal, ListGroup } from "react-bootstrap";
-import { ADD_ITEM, CLOSE_CHECK } from "../mutations";
+import { ADD_ITEM, VOID_ITEM, CLOSE_CHECK } from "../mutations";
 
 class CheckDetails extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			showModal: false,
-			selectedItem: null
+			showVoidModal: false,
+			selectedItem: null,
+			voidedItem: null
 		};
 	}
 
@@ -30,13 +32,35 @@ class CheckDetails extends React.Component {
 		});
 	}
 
+	openVoidModal = () => {
+		this.setState({
+			showVoidModal: true
+		});
+	}
+
+	closeVoidModal = () => {
+		this.setState({
+			showVoidModal: false,
+			voidedItem: null
+		});
+	}
+
 	addItem = addItem => {
 		addItem();
 		this.closeModal();
 	}
 
+	voidItem = voidItem => {
+		voidItem();
+		this.closeVoidModal();
+	}
+
 	selectItem = itemId => {
 		this.setState({selectedItem: itemId});
+	}
+
+	selectVoidItem = itemId => {
+		this.setState({voidedItem: itemId});
 	}
 
 	render() {
@@ -49,7 +73,8 @@ class CheckDetails extends React.Component {
 						if (loading) return <LoadingModule />;
 						if (error) return (<div className="text-danger">{error.message}</div>);
 						const details = getCheckDetails;
-						const total = details.closed ? details.orderedItems.reduce((acc, val) => acc + val.price, 0) + details.tax + details.tip : details.orderedItems.reduce((acc, val) => acc + val.price, 0);
+						console.log(details);
+						const total = details.closed ? details.orderedItems.filter(item => !item.voided).reduce((acc, val) => acc + val.price, 0) + details.tax + details.tip : details.orderedItems.filter(item => !item.voided).reduce((acc, val) => acc + val.price, 0);
 						return (
 							<div>
 								<Link href={`/table?id=${details.tableId}`} as={`/table/${details.tableId}`}><button className="btn btn-secondary"><i className="fas fa-angle-left"></i> Table Details</button></Link>
@@ -68,18 +93,27 @@ class CheckDetails extends React.Component {
 								<p className="text-muted">Last Modified on {moment(details.dateUpdated).format("MM/DD/YYYY @ h:mm A")}</p>
 								<hr className="border-dark" />
 								<div className="items-wrapper border-primary">
-									<h4 className="d-flex align-content-center justify-content-between">Line Items <button className="btn btn-sm btn-info" onClick={this.openModal}><i className="fas fa-plus"></i> Add New</button></h4>
+									<h4 className="d-flex align-content-center justify-content-between">
+										Line Items
+										<div>
+											<button className="btn btn-sm btn-outline-danger" onClick={this.openVoidModal}>Void Item <i className="fas fa-ban"></i></button>
+											<button className="btn btn-sm btn-info" onClick={this.openModal}>Add New <i className="fas fa-plus"></i></button>
+										</div>
+									</h4>
 									<hr/>
 									{details.orderedItems.length ? details.orderedItems.map((item, idx) => (
-										<div className="line-item" key={idx}>{item.name} <span>${item.price}</span></div>
+										<div className={item.voided ? "line-item voided text-muted" : "line-item"} key={idx}>
+											{item.name} <span className="price">${item.price}</span>
+										</div>
 									)) : <p className="text-center"><em>There are currently no items on this check.</em></p>}
 									<hr/>
-									<div className="line-item">Tax <span>{details.tax ? details.tax : "N/A"}</span></div>
-									<div className="line-item">Tip <span>{details.tip ? details.tip : "N/A"}</span></div>
+									<div className="line-item">Tax <span>{details.tax ? "$" + details.tax : "N/A"}</span></div>
+									<div className="line-item">Tip <span>{details.tip ? "$" + Math.round(details.tip*100)/100 : "N/A"}</span></div>
 									<hr/>
 									<div className="line-item total">Total <span>${Math.round(total * 100) / 100}</span></div>
 								</div>
-								<Modal show={this.state.showModal} onHide={this.toggleModal}>
+								{/* Add Item Modal */}
+								<Modal show={this.state.showModal} onHide={this.closeModal}>
 									<Modal.Header closeButton>
 										<Modal.Title>Add New Line Item</Modal.Title>
 									</Modal.Header>
@@ -108,6 +142,33 @@ class CheckDetails extends React.Component {
 											{(addItem) => (
 												<button className="btn btn-sm btn-success" onClick={() => this.addItem(addItem)} disabled={this.state.selectedItem === null}>
 													Add Item
+												</button>
+											)}
+										</Mutation>
+									</Modal.Footer>
+								</Modal>
+								{/* Void Item Modal */}
+								<Modal show={this.state.showVoidModal} onHide={this.closeVoidModal}>
+									<Modal.Header closeButton>
+										<Modal.Title>Void Ordered Item</Modal.Title>
+									</Modal.Header>
+									<Modal.Body>
+										<ListGroup>
+											{details.orderedItems.filter(item => !item.voided).map((item, idx) => (
+												<ListGroup.Item key={idx} action onClick={() => this.selectVoidItem(item.id)} style={{outline: "none"}} className="d-flex align-content-center justify-content-between">
+													{item.name}
+												</ListGroup.Item>
+											))}
+										</ListGroup>
+									</Modal.Body>
+									<Modal.Footer>
+										<button className="btn btn-sm btn-outline-dark" onClick={this.closeVoidModal}>
+											Cancel
+										</button>
+										<Mutation mutation={VOID_ITEM} variables={{checkId: details.id, itemId: this.state.voidedItem}} refetchQueries={[{query: GET_CHECK_DETAILS, variables: {checkId: this.props.router.query.id}}]}>
+											{(voidItem) => (
+												<button className="btn btn-sm btn-success" onClick={() => this.voidItem(voidItem)} disabled={this.state.voidedItem === null}>
+													Void Item
 												</button>
 											)}
 										</Mutation>
@@ -151,12 +212,18 @@ class CheckDetails extends React.Component {
 						align-items: center;
 						justify-content: space-between;
 					}
-					.line-item span {
+					.line-item.voided {
+						text-decoration: line-through;
+					}
+					.line-item .price {
 						font-style: italic;
 						font-size: 0.9em
 					}
 					.total {
 						font-size: 20px;
+					}
+					.btn {
+					text-transform: uppercase;
 					}
 				`}</style>
 			</Layout>

@@ -41,13 +41,20 @@ const TableDetails = props => (
 									{({data: {getChecksByTable}, loading, error}) => {
 										if (loading) return <LoadingModule />;
 										if (error) return <div className="text-danger">{error.message}</div>;
-										return getChecksByTable.map((check, idx) => <CheckCard key={idx} check={check} />);
+										return getChecksByTable.filter(check => !check.closed).map((check, idx) => <CheckCard key={idx} check={check} />);
 									}}
 								</Query>
 							</div>
 							<div className="col-xs-12 col-md-6">
 								<h4>Closed Checks</h4>
 								<hr className="border-primary"/>
+								<Query query={GET_CHECKS_FOR_TABLE} variables={{tableId: props.router.query.id}}>
+									{({data: {getChecksByTable}, loading, error}) => {
+										if (loading) return <LoadingModule />;
+										if (error) return <div className="text-danger">{error.message}</div>;
+										return getChecksByTable.filter(check => check.closed).map((check, idx) => <CheckCard key={idx} check={check} />);
+									}}
+								</Query>
 							</div>
 						</div>
 					</div>

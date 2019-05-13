@@ -71,6 +71,8 @@ export const GET_CHECK_DETAILS = gql`
 			tip
 			orderedItems {
 				id
+				name
+				price
 				dateCreated
 				dateUpdated
 				createdBy

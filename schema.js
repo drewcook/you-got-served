@@ -12,6 +12,7 @@ exports.typeDefs = gql`
 	
 	type Mutation {
 		addCheck(tableId: String!): Check
+		addNewItem(checkId: String!, itemId: String!): Boolean
 	}
 	
 	type Table {
@@ -39,6 +40,8 @@ exports.typeDefs = gql`
 	
 	type OrderedItem {
 		id: String!
+		name: String
+		price: Float
 		dateCreated: String
 		dateUpdated: String
 		createdBy: String

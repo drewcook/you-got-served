@@ -47,12 +47,32 @@ exports.resolvers = {
 			return checks.filter(check => check.tableId === tableId);
 		},
 		getCheckDetails: async (root, {checkId}, {Check}) => {
-			return await request(`checks/${checkId}`, "GET");
+			const details = await request(`checks/${checkId}`, "GET");
+			const items = await request("items", "GET");
+			// attach names and prices to ordered items
+			items.map(item => {
+				details.orderedItems.map(orderedItem => {
+					if (orderedItem.itemId === item.id) {
+						orderedItem.name = item.name;
+						orderedItem.price = item.price;
+						return false;
+					}
+				});
+			});
+			return details;
 		}
 	},
 	Mutation: {
 		addCheck: async (root, {tableId}, {Table}) => {
 			return await (request("checks", "POST", {tableId}));
+		},
+		addNewItem: async (root, {checkId, itemId}, {Check}) => {
+			await (request(`checks/${checkId}/addItem`, "PUT", {itemId}))
+				.then(() => true)
+				.catch(ex => {
+					throw new Error(ex);
+					return false;
+				});
 		}
 	}
 };

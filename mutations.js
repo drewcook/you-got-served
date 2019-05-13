@@ -14,3 +14,9 @@ export const ADD_CHECK = gql`
 		}
 	}
 `;
+
+export const ADD_ITEM = gql`
+	mutation($checkId: String!, $itemId: String!) {
+		addNewItem(checkId: $checkId, itemId: $itemId)
+	}
+`;

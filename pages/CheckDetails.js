@@ -1,106 +1,161 @@
 import Layout from "../client/components/Layout";
-import { Query } from "react-apollo";
-import { GET_CHECK_DETAILS, GET_TABLE_BY_ID} from "../queries";
+import { Mutation, Query } from "react-apollo";
+import { GET_CHECK_DETAILS, GET_TABLE_BY_ID, GET_ITEMS } from "../queries";
 import LoadingModule from "../client/components/LoadingModule";
 import moment from "moment";
 import Link from "next/link";
 import TableNumber from "../client/components/TableNumber";
+import { Modal, ListGroup } from "react-bootstrap";
+import { ADD_ITEM } from "../mutations";
 
-const CheckDetails = props => (
-	<Layout title="Check Details">
-		<h2>Check Details</h2>
-		<hr className="border-warning" />
-		<Query query={GET_CHECK_DETAILS} variables={{checkId: props.router.query.id}}>
-			{({data: {getCheckDetails}, loading, error}) => {
-				if (loading) return <LoadingModule />;
-				if (error) return (<div className="text-danger">{error.message}</div>);
-				const details = getCheckDetails;
-				console.log(details);
-				return (
-					<div>
-						<Link href={`/table?id=${details.tableId}`} as={`/table/${details.tableId}`}><button className="btn btn-secondary"><i className="fas fa-angle-left"></i> Table Details</button></Link>
-						{/*<p>Check ID: {details.id}</p> not needed for a user */}
-						<Query query={GET_TABLE_BY_ID} variables={{id: details.tableId}}>
-							{({data: {getTableById}, loading, error}) => {
-								if (loading) return <LoadingModule />;
-								if (error) return (<div className="text-danger">{error.message}</div>);
-								return (
-									<p className="lead">Table: <TableNumber number={getTableById.number} /></p>
-								);
-							}}
-						</Query>
-						<p className="lead">Status: {details.closed ? <span className="badge badge-danger">Closed</span> : <span className="badge badge-success">Open</span>}</p>
-						<p className="text-muted">Opened on {moment(details.dateCreated).format("MM/DD/YYYY @ h:mm A")}</p>
-						<p className="text-muted">Last Modified on {moment(details.dateUpdated).format("MM/DD/YYYY @ h:mm A")}</p>
-						<hr className="border-dark" />
-						<div className="items-wrapper">
-							<h4 className="d-flex align-content-center justify-content-between">Line Items <button className="btn btn-sm btn-info" data-toggle="modal" data-target="#addItemModal"><i className="fas fa-plus"></i> Add Item</button></h4>
-							<hr/>
-							{details.length ? details.orderedItems.map((item, idx) => (
-								<div>
-									{item.id}
+class CheckDetails extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			showModal: false,
+			selectedItem: null
+		};
+	}
+
+	openModal = () => {
+		this.setState({
+			showModal: true
+		});
+	}
+
+	closeModal = () => {
+		this.setState({
+			showModal: false,
+			selectedItem: null
+		});
+	}
+
+	addItem = addItem => {
+		addItem();
+		this.closeModal();
+	}
+
+	selectItem = itemId => {
+		this.setState({selectedItem: itemId});
+	}
+
+	render() {
+		return (
+			<Layout title="Check Details">
+				<h2>Check Details</h2>
+				<hr className="border-warning" />
+				<Query query={GET_CHECK_DETAILS} variables={{checkId: this.props.router.query.id}}>
+					{({data: {getCheckDetails}, loading, error}) => {
+						if (loading) return <LoadingModule />;
+						if (error) return (<div className="text-danger">{error.message}</div>);
+						const details = getCheckDetails;
+						console.log(details);
+						return (
+							<div>
+								<Link href={`/table?id=${details.tableId}`} as={`/table/${details.tableId}`}><button className="btn btn-secondary"><i className="fas fa-angle-left"></i> Table Details</button></Link>
+								{/*<p>Check ID: {details.id}</p> not needed for a user */}
+								<Query query={GET_TABLE_BY_ID} variables={{id: details.tableId}}>
+									{({data: {getTableById}, loading, error}) => {
+										if (loading) return <LoadingModule />;
+										if (error) return (<div className="text-danger">{error.message}</div>);
+										return (
+											<p className="lead">Table: <TableNumber number={getTableById.number} /></p>
+										);
+									}}
+								</Query>
+								<p className="lead">Status: {details.closed ? <span className="badge badge-danger">Closed</span> : <span className="badge badge-success">Open</span>}</p>
+								<p className="text-muted">Opened on {moment(details.dateCreated).format("MM/DD/YYYY @ h:mm A")}</p>
+								<p className="text-muted">Last Modified on {moment(details.dateUpdated).format("MM/DD/YYYY @ h:mm A")}</p>
+								<hr className="border-dark" />
+								<div className="items-wrapper border-primary">
+									<h4 className="d-flex align-content-center justify-content-between">Line Items <button className="btn btn-sm btn-info" onClick={this.openModal}><i className="fas fa-plus"></i> Add New</button></h4>
+									<hr/>
+									{details.orderedItems.length ? details.orderedItems.map((item, idx) => (
+										<div className="line-item" key={idx}>{item.name} <span>${item.price}</span></div>
+									)) : <p className="text-center"><em>There are currently no items on this check.</em></p>}
+									<hr/>
+									<div className="line-item">Tax <span>{details.tax ? details.tax : "N/A"}</span></div>
+									<div className="line-item">Tip <span>{details.tip ? details.tip : "N/A"}</span></div>
+									<hr/>
+									<div className="line-item total">Total <span>${details.orderedItems.reduce((acc, val) => acc + val.price, 0)}</span></div>
 								</div>
-							)) : <p className="text-center"><em>There are currently no items on this check.</em></p>}
-							<hr/>
-							<p className="line-item">Tax : <span>{details.tax ? details.tax : "N/A"}</span></p>
-							<p className="line-item">Tip : <span>{details.tip ? details.tip : "N/A"}</span></p>
-						</div>
-						<div className="modal fade" role="dialog" id="addItemModal">
-							<div className="modal-dialog" role="document">
-								<div className="modal-content">
-									<div className="modal-header">
-										<h5 className="modal-title">Modal title</h5>
-										<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
+								<Modal show={this.state.showModal} onHide={this.toggleModal}>
+									<Modal.Header closeButton>
+										<Modal.Title>Add New Line Item</Modal.Title>
+									</Modal.Header>
+									<Modal.Body>
+										<Query query={GET_ITEMS}>
+											{({data: {getItems}, loading, error}) => {
+												if (loading) return <LoadingModule />;
+												if (error) return <div className="text-danger">{error.message}</div>;
+												return (
+													<ListGroup>
+														{getItems.map((item, idx) => (
+															<ListGroup.Item key={idx} action onClick={() => this.selectItem(item.id)} style={{outline: "none"}} className="d-flex align-content-center justify-content-between">
+																{item.name} <span>${item.price}</span>
+															</ListGroup.Item>
+														))}
+													</ListGroup>
+												);
+											}}
+										</Query>
+									</Modal.Body>
+									<Modal.Footer>
+										<button className="btn btn-sm btn-outline-dark" onClick={this.closeModal}>
+											Cancel
 										</button>
-									</div>
-									<div className="modal-body">
-										<p>Modal body text goes here.</p>
-									</div>
-									<div className="modal-footer">
-										<button type="button" className="btn btn-primary">Save changes</button>
-										<button type="button" className="btn btn-secondary" data-dismiss="modal">Close
-										</button>
-									</div>
-								</div>
+										<Mutation mutation={ADD_ITEM} variables={{checkId: details.id, itemId: this.state.selectedItem}} refetchQueries={[{query: GET_CHECK_DETAILS, variables: {checkId: this.props.router.query.id}}]}>
+											{(addItem) => (
+												<button className="btn btn-sm btn-success" onClick={() => this.addItem(addItem)} disabled={this.state.selectedItem === null}>
+													Add Item
+												</button>
+											)}
+										</Mutation>
+									</Modal.Footer>
+								</Modal>
 							</div>
-						</div>
-					</div>
-				);
-			}}
-		</Query>
-		<style jsx>{`
-			p.lead {
-				margin-top: 20px;
-			}
-			.badge {
-				font-size: 16px;
-				margin: 10px 0 20px;
-			}
-			h4 .btn {
-				margin-left: 8px;
-				vertical-align: text-top;
-			}
-			.items-wrapper {
-				background: #ccc;
-				color: #222;
-				padding: 20px 15px;
-			}
-			.items-wrapper p {
-				margin: 0;
-			}
-			.line-item {
-				padding: 4px 0;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-			}
-			.line-item span {
-				font-style: italic;
-				font-size: 0.9em
-			}
-		`}</style>
-	</Layout>
-);
+						);
+					}}
+				</Query>
+				<style jsx>{`
+					p.lead {
+						margin-top: 20px;
+					}
+					.badge {
+						font-size: 16px;
+						margin: 10px 0 20px;
+					}
+					h4 .btn {
+						margin-left: 8px;
+						vertical-align: text-top;
+					}
+					.items-wrapper {
+						border: 2px dotted;
+						border-radius: 4px;
+						background: #ccc;
+						color: #222;
+						padding: 20px 15px;
+					}
+					.items-wrapper p {
+						margin: 0;
+					}
+					.line-item {
+						padding: 4px 0;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+					}
+					.line-item span {
+						font-style: italic;
+						font-size: 0.9em
+					}
+					.total {
+						font-size: 20px;
+					}
+				`}</style>
+			</Layout>
+		);
+	}
+}
 
 export default CheckDetails;

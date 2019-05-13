@@ -15,7 +15,7 @@ exports.typeDefs = gql`
 		closeCheck(checkId: String!): Check
 		addNewItem(checkId: String!, itemId: String!): Boolean
 		voidItem(checkId: String!, itemId: String!): OrderedItem
-		deleteAllChecks: Boolean
+		deleteAllChecks: [Check]
 	}
 	
 	type Table {

@@ -82,9 +82,7 @@ exports.resolvers = {
 			return await request(`checks/${checkId}/voidItem`, "PUT", {orderedItemId: itemId});
 		},
 		deleteAllChecks: async (root, args, {Check}) => {
-			const res = await request("checks", "DELETE");
-			console.log(res);
-			return true;
+			return await request("checks", "DELETE");
 		}
 	}
 };

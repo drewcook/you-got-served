@@ -30,6 +30,15 @@ export const CLOSE_CHECK = gql`
 	}
 `;
 
+// this is only for development use
+export const DELETE_ALL_CHECKS = gql`
+	mutation {
+		deleteAllChecks {
+			id
+		}
+	}
+`;
+
 export const ADD_ITEM = gql`
 	mutation($checkId: String!, $itemId: String!) {
 		addNewItem(checkId: $checkId, itemId: $itemId)

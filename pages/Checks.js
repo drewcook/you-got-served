@@ -1,9 +1,10 @@
 import Layout from "../client/components/Layout";
 import { GET_CHECKS, GET_TABLE_BY_ID } from "../queries";
-import { Query } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 import LoadingModule from "../client/components/LoadingModule";
 import CheckCard from "../client/components/CheckCard";
 import {Nav} from "react-bootstrap";
+import { DELETE_ALL_CHECKS } from "../mutations";
 
 class Checks extends React.Component {
 	constructor(props) {
@@ -31,17 +32,22 @@ class Checks extends React.Component {
 			<Layout title="Checks">
 				<h2>Checks</h2>
 				<hr className="border-warning" />
-				<ul className="nav nav-pills">
-					<li className="nav-item">
-						<a className="nav-link active" onClick={e => this.filterChecks(e, null)}>All</a>
-					</li>
-					<li className="nav-item">
-						<a className="nav-link" onClick={e => this.filterChecks(e, "open")}>Open</a>
-					</li>
-					<li className="nav-item">
-						<a className="nav-link" onClick={e =>this.filterChecks(e, "closed")}>Closed</a>
-					</li>
-				</ul>
+				<div className="pill-wrapper d-flex align-content-center justify-content-between">
+					<ul className="nav nav-pills">
+						<li className="nav-item">
+							<a className="nav-link active" onClick={e => this.filterChecks(e, null)}>All</a>
+						</li>
+						<li className="nav-item">
+							<a className="nav-link" onClick={e => this.filterChecks(e, "open")}>Open</a>
+						</li>
+						<li className="nav-item">
+							<a className="nav-link" onClick={e =>this.filterChecks(e, "closed")}>Closed</a>
+						</li>
+					</ul>
+					<Mutation mutation={DELETE_ALL_CHECKS} refetchQueries={[{query: GET_CHECKS}]}>
+						{(deleteAllChecks) => <button className="btn btn-sm btn-outline-danger" onClick={deleteAllChecks}>Delete All</button>}
+					</Mutation>
+				</div>
 				<Query query={GET_CHECKS}>
 					{({data: {getChecks}, loading, error}) => {
 						if (loading) return <LoadingModule />
@@ -104,8 +110,8 @@ class Checks extends React.Component {
 					}}
 				</Query>
 				<style jsx>{`
-					ul.nav {
-						margin: 10px 0 30px;
+					.pill-wrapper {
+						margin: 20px 0 40px;
 					}
 					.nav-link {
 						padding: 5px 10px;
@@ -136,6 +142,9 @@ class Checks extends React.Component {
 					}
 					p.lead {
 						margin-top: 50px;
+					}
+					.btn-outline-danger {
+						text-transform: uppercase;
 					}
 				`}</style>
 			</Layout>

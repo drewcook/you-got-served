@@ -49,7 +49,7 @@ class CheckDetails extends React.Component {
 						if (loading) return <LoadingModule />;
 						if (error) return (<div className="text-danger">{error.message}</div>);
 						const details = getCheckDetails;
-						console.log(details);
+						const total = details.closed ? details.orderedItems.reduce((acc, val) => acc + val.price, 0) + details.tax + details.tip : details.orderedItems.reduce((acc, val) => acc + val.price, 0);
 						return (
 							<div>
 								<Link href={`/table?id=${details.tableId}`} as={`/table/${details.tableId}`}><button className="btn btn-secondary"><i className="fas fa-angle-left"></i> Table Details</button></Link>
@@ -77,7 +77,7 @@ class CheckDetails extends React.Component {
 									<div className="line-item">Tax <span>{details.tax ? details.tax : "N/A"}</span></div>
 									<div className="line-item">Tip <span>{details.tip ? details.tip : "N/A"}</span></div>
 									<hr/>
-									<div className="line-item total">Total <span>${details.orderedItems.reduce((acc, val) => acc + val.price, 0)}</span></div>
+									<div className="line-item total">Total <span>${Math.round(total * 100) / 100}</span></div>
 								</div>
 								<Modal show={this.state.showModal} onHide={this.toggleModal}>
 									<Modal.Header closeButton>

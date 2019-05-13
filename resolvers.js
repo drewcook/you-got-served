@@ -31,6 +31,10 @@ exports.resolvers = {
 		getTables: async (root, args, {Table}) => {
 			return await request("tables", "GET");
 		},
+		getTableById: async (root, {id}, {Table}) => {
+			const tables = await request("tables", "GET");
+			return tables.filter(table => table.id === id)[0];
+		},
 		getItems: async (root, args, {Item}) => {
 			return await request("items", "GET");
 

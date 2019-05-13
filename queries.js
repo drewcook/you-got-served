@@ -9,6 +9,15 @@ export const GET_TABLES = gql`
 	}
 `;
 
+export const GET_TABLE_BY_ID = gql`
+	query($id: String!) {
+		getTableById(id: $id) {
+			id
+			number
+		}
+	}
+`;
+
 export const GET_ITEMS = gql`
 	query {
 		getItems {

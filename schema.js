@@ -3,6 +3,7 @@ const {gql} = require("apollo-server-express");
 exports.typeDefs = gql`
 	type Query {
 		getTables: [Table]
+		getTableById(id: String!): Table
 		getItems: [Item]
 		getChecks: [Check]
 		getChecksByTable(tableId: String!): [Check]

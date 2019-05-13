@@ -1,5 +1,5 @@
 import Layout from "../client/components/Layout";
-import { GET_CHECKS } from "../queries";
+import { GET_CHECKS, GET_TABLE_BY_ID } from "../queries";
 import { Query } from "react-apollo";
 import LoadingModule from "../client/components/LoadingModule";
 import CheckCard from "../client/components/CheckCard";
@@ -16,7 +16,15 @@ const Checks = props => (
 					<div className="row">
 						{getChecks.map((check, idx) => (
 							<div className="col-xs-12 col-sm-6 col-lg-4" key={idx}>
-								<CheckCard check={check} />
+								<Query query={GET_TABLE_BY_ID} variables={{id: check.tableId}}>
+									{({data: {getTableById}, loading, error}) => {
+										if (loading) return <LoadingModule />;
+										if (error) return (<div className="text-danger">{error.message}</div>);
+										return (
+											<CheckCard check={check} table={getTableById} />
+										);
+									}}
+								</Query>
 							</div>
 						))}
 					</div> :

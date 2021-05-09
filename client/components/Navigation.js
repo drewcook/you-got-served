@@ -1,18 +1,30 @@
 import Link from "next/link";
 
-const Navigation = props => (
+const Navigation = (props) => (
 	<nav>
 		<span className="fa-stack fa-2x icon">
-		    <i className="fas fa-circle fa-stack-2x text-success"></i>
-		    <i className="fas fa-utensil-spoon fa-stack-1x fa-inverse"></i>
+			<i className="fas fa-circle fa-stack-2x text-success"></i>
+			<i className="fas fa-utensil-spoon fa-stack-1x fa-inverse"></i>
 		</span>
 		<h1>The Greasy Spoon</h1>
-		<hr/>
+		<hr />
 		<ul>
-			<li><Link href="/"><a title="Home">Home</a></Link></li>
-			<li><Link href="/Tables" as="/tables"><a title="Tables">Tables</a></Link></li>
+			<li>
+				<Link href="/">
+					<a title="Home">Home</a>
+				</Link>
+			</li>
+			<li>
+				<Link href="/Tables" as="/tables">
+					<a title="Tables">Tables</a>
+				</Link>
+			</li>
 			{/*<li><Link href="/Items" as="/items"><a title="Items">Items</a></Link></li> not necessary */}
-			<li><Link href="/Checks" as="/checks"><a title="Checks">Checks</a></Link></li>
+			<li>
+				<Link href="/Checks" as="/checks">
+					<a title="Checks">Checks</a>
+				</Link>
+			</li>
 		</ul>
 		<style jsx>{`
 			h1 {
@@ -25,7 +37,7 @@ const Navigation = props => (
 				margin: 0 auto 10px;
 			}
 			hr {
-				border-color: #F39C12;
+				border-color: #f39c12;
 			}
 			.fa-inverse {
 				color: #fff;
@@ -46,8 +58,8 @@ const Navigation = props => (
 				color: #fff;
 			}
 			a:hover {
-				color: #F39C12;
-				text-decoration: none;			
+				color: #f39c12;
+				text-decoration: none;
 			}
 			@media (max-width: 767px) {
 				nav {
@@ -59,7 +71,9 @@ const Navigation = props => (
 				h1 {
 					text-align: left;
 				}
-				h1, ul, li {
+				h1,
+				ul,
+				li {
 					display: inline-block;
 					margin-bottom: 0;
 				}

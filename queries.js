@@ -1,4 +1,4 @@
-const {gql} = require("apollo-boost");
+const { gql } = require("apollo-boost");
 
 export const GET_TABLES = gql`
 	query {

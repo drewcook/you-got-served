@@ -1,29 +1,36 @@
 import Head from "next/head";
 import Navigation from "./Navigation";
 
-const Layout = props => (
+const Layout = (props) => (
 	<div>
 		<Head>
 			{/* Normally I would load things locally or compile statics through for a singular request */}
 			<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossOrigin="anonymous" />
+			<link
+				rel="stylesheet"
+				href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+				integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+				crossOrigin="anonymous"
+			/>
 			<title>You Got Served | {props.title}</title>
 		</Head>
 		<div className="row">
 			<div className="col-md-3 nav-wrapper bg-light">
 				<aside>
 					<Navigation />
-					<span className="copyright text-center">&copy; {new Date().getFullYear()} | YOU GOT SERVED</span>
+					<span className="copyright text-center">
+						&copy; {new Date().getFullYear()} | YOU GOT SERVED
+					</span>
 				</aside>
 			</div>
 			<div className="col-md-9 page-wrapper">
-				<div className="container">
-					{props.children}
-				</div>
+				<div className="container">{props.children}</div>
 			</div>
 		</div>
 		<footer className="hidden-md bg-light">
-			<span className="text-center">&copy; {new Date().getFullYear()} | YOU GOT SERVED</span>
+			<span className="text-center">
+				&copy; {new Date().getFullYear()} | YOU GOT SERVED
+			</span>
 		</footer>
 		<style jsx>{`
 			.row {
@@ -50,7 +57,7 @@ const Layout = props => (
 					padding-top: 20px;
 					min-height: 100vh;
 					position: relative;
-					border-right: 2px solid #F39C12;
+					border-right: 2px solid #f39c12;
 				}
 				.page-wrapper {
 					padding-top: 70px;

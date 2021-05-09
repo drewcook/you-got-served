@@ -1,4 +1,4 @@
-const TableNumber = ({number}) => (
+const TableNumber = ({ number }) => (
 	<React.Fragment>
 		<span className="table-num border-success bg-primary">{number}</span>
 		<style jsx>{`

@@ -3,7 +3,7 @@ import { GET_CHECKS, GET_TABLE_BY_ID } from "../queries";
 import { Mutation, Query } from "react-apollo";
 import LoadingModule from "../client/components/LoadingModule";
 import CheckCard from "../client/components/CheckCard";
-import {Nav} from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import { DELETE_ALL_CHECKS } from "../mutations";
 
 class Checks extends React.Component {
@@ -11,21 +11,20 @@ class Checks extends React.Component {
 		super(props);
 		this.state = {
 			checks: null,
-			filter: null
-		}
+			filter: null,
+		};
 	}
 
 	filterChecks = (e, filter) => {
 		// remove any active classe, then add active class to item
-		document.querySelectorAll(".nav-link").forEach(v => {
+		document.querySelectorAll(".nav-link").forEach((v) => {
 			if (v.classList.contains("active")) {
-					v.classList.remove("active");
-				}
+				v.classList.remove("active");
 			}
-		);
+		});
 		e.target.classList.add("active");
-		this.setState({filter});
-	}
+		this.setState({ filter });
+	};
 
 	render() {
 		return (
@@ -35,13 +34,28 @@ class Checks extends React.Component {
 				<div className="pill-wrapper d-flex align-content-center justify-content-between">
 					<ul className="nav nav-pills">
 						<li className="nav-item">
-							<a className="nav-link active" onClick={e => this.filterChecks(e, null)}>All</a>
+							<a
+								className="nav-link active"
+								onClick={(e) => this.filterChecks(e, null)}
+							>
+								All
+							</a>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" onClick={e => this.filterChecks(e, "open")}>Open</a>
+							<a
+								className="nav-link"
+								onClick={(e) => this.filterChecks(e, "open")}
+							>
+								Open
+							</a>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" onClick={e =>this.filterChecks(e, "closed")}>Closed</a>
+							<a
+								className="nav-link"
+								onClick={(e) => this.filterChecks(e, "closed")}
+							>
+								Closed
+							</a>
 						</li>
 					</ul>
 					{/* this can be uncommented when developing
@@ -51,61 +65,88 @@ class Checks extends React.Component {
 					*/}
 				</div>
 				<Query query={GET_CHECKS}>
-					{({data: {getChecks}, loading, error}) => {
-						if (loading) return <LoadingModule />
-						if (error) return <div className="text-danger">{error.message}</div>;
-						if (!getChecks.length) return (<p className="text-center lead">There are currently no checks.</p>);
-						if (!this.state.filter) return (
-							<div className="row">
-								{getChecks.map((check, idx) => (
-									<div className="col-xs-12 col-sm-6 col-lg-4" key={idx}>
-										<Query query={GET_TABLE_BY_ID} variables={{id: check.tableId}}>
-											{({loading, error}) => {
-												if (loading) return <LoadingModule />;
-												if (error) return (<div className="text-danger">{error.message}</div>);
-												return (
-													<CheckCard check={check} />
-												);
-											}}
-										</Query>
-									</div>
-								))}
-							</div>
-						);
-						if (this.state.filter === "open") {
+					{({ data: { getChecks }, loading, error }) => {
+						if (loading) return <LoadingModule />;
+						if (error)
+							return <div className="text-danger">{error.message}</div>;
+						if (!getChecks.length)
+							return (
+								<p className="text-center lead">
+									There are currently no checks.
+								</p>
+							);
+						if (!this.state.filter)
 							return (
 								<div className="row">
-									{getChecks.filter(check => !check.closed).map((check, idx) => (
+									{getChecks.map((check, idx) => (
 										<div className="col-xs-12 col-sm-6 col-lg-4" key={idx}>
-											<Query query={GET_TABLE_BY_ID} variables={{id: check.tableId}}>
-												{({loading, error}) => {
+											<Query
+												query={GET_TABLE_BY_ID}
+												variables={{ id: check.tableId }}
+											>
+												{({ loading, error }) => {
 													if (loading) return <LoadingModule />;
-													if (error) return (<div className="text-danger">{error.message}</div>);
-													return (
-														<CheckCard check={check} />
-													);
+													if (error)
+														return (
+															<div className="text-danger">{error.message}</div>
+														);
+													return <CheckCard check={check} />;
 												}}
 											</Query>
 										</div>
 									))}
 								</div>
 							);
+						if (this.state.filter === "open") {
+							return (
+								<div className="row">
+									{getChecks
+										.filter((check) => !check.closed)
+										.map((check, idx) => (
+											<div className="col-xs-12 col-sm-6 col-lg-4" key={idx}>
+												<Query
+													query={GET_TABLE_BY_ID}
+													variables={{ id: check.tableId }}
+												>
+													{({ loading, error }) => {
+														if (loading) return <LoadingModule />;
+														if (error)
+															return (
+																<div className="text-danger">
+																	{error.message}
+																</div>
+															);
+														return <CheckCard check={check} />;
+													}}
+												</Query>
+											</div>
+										))}
+								</div>
+							);
 						} else {
 							return (
 								<div className="row">
-									{getChecks.filter(check => check.closed).map((check, idx) => (
-										<div className="col-xs-12 col-sm-6 col-lg-4" key={idx}>
-											<Query query={GET_TABLE_BY_ID} variables={{id: check.tableId}}>
-												{({loading, error}) => {
-													if (loading) return <LoadingModule />;
-													if (error) return (<div className="text-danger">{error.message}</div>);
-													return (
-														<CheckCard check={check} />
-													);
-												}}
-											</Query>
-										</div>
-									))}
+									{getChecks
+										.filter((check) => check.closed)
+										.map((check, idx) => (
+											<div className="col-xs-12 col-sm-6 col-lg-4" key={idx}>
+												<Query
+													query={GET_TABLE_BY_ID}
+													variables={{ id: check.tableId }}
+												>
+													{({ loading, error }) => {
+														if (loading) return <LoadingModule />;
+														if (error)
+															return (
+																<div className="text-danger">
+																	{error.message}
+																</div>
+															);
+														return <CheckCard check={check} />;
+													}}
+												</Query>
+											</div>
+										))}
 								</div>
 							);
 						}

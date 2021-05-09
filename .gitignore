@@ -1,6 +1,7 @@
 # Environment directories
 .idea
 .vs
+.vscode
 
 # Project ignores
 .next

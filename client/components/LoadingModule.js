@@ -1,4 +1,4 @@
-const LoadingModule = props => (
+const LoadingModule = (props) => (
 	<div className="loading-wrapper">
 		<div className="fas fa-spinner fa-pulse"></div>
 		<p>Loading...</p>

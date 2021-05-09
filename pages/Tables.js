@@ -4,17 +4,17 @@ import Link from "next/link";
 import { Query } from "react-apollo";
 import LoadingModule from "../client/components/LoadingModule";
 
-const Tables = props => (
+const Tables = (props) => (
 	<Layout title="Tables">
 		<h2>Tables</h2>
 		<hr className="border-warning" />
 		<Query query={GET_TABLES}>
-			{({data: {getTables}, loading, error}) => {
+			{({ data: { getTables }, loading, error }) => {
 				if (loading) return <LoadingModule />;
 				if (error) return <div className="text-danger">{error.message}</div>;
 				return (
 					<div className="row">
-						{getTables.map(table => (
+						{getTables.map((table) => (
 							<div className="col-xs-12 col-sm-4" key={table.id}>
 								<Link href={`/table?id=${table.id}`} as={`/table/${table.id}`}>
 									<a>
@@ -43,7 +43,9 @@ const Tables = props => (
 				color: #fff;
 				text-decoration: none;
 			}
-			a:hover { text-decoration: none; }
+			a:hover {
+				text-decoration: none;
+			}
 			a:hover div {
 				opacity: 0.8;
 			}

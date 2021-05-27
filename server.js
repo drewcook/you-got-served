@@ -1,6 +1,5 @@
 const express = require("express");
 const next = require("next");
-//const path = require("path");
 
 const cors = require("cors");
 const compression = require("compression");
@@ -55,11 +54,11 @@ app
 			const queryParams = { id: req.params.id };
 			app.render(req, res, actualPage, queryParams);
 		});
-		/*server.get("/items", (req, res) => {
+		server.get("/items", (req, res) => {
 			const actualPage = "/Items";
 			const queryParams = {};
 			app.render(req, res, actualPage, queryParams);
-		});*/
+		});
 		server.get("/checks", (req, res) => {
 			const actualPage = "/Checks";
 			const queryParams = {};

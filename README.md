@@ -15,3 +15,7 @@ The application will spin up on a local port.
 ## Demo
 
 There is a beta production app hosted at https://yougotserved.herokuapp.com/.
+
+<p align="center">
+ <img src="https://visitor-badge.glitch.me/badge?page_id=drewcook.you-got-served" alt="visitor count"/>
+</p>
